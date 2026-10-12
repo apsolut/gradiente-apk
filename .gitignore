@@ -1,0 +1,56 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+example
+
+# generated native folders
+/ios
+/android
+
+# Play Console service account key (EAS Submit) — never commit
+play-service-account.json
+
+# Store screenshots are captured per release; git add -f the ones you ship
+store/screenshots/*
+!store/screenshots/README.md
+
+# apsolut (davinci): keep the binary folders + their templates, ignore the binaries
+.apsolut/07-files/*
+!.apsolut/07-files/000-template.md
+.apsolut/08-screenshots/*
+!.apsolut/08-screenshots/000-template.md
