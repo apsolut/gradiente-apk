@@ -9,6 +9,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ExportCanvas } from "@/components/ExportCanvas";
 import { GradientView } from "@/components/GradientView";
@@ -34,6 +35,7 @@ export default function ExportModal() {
   const t = useT();
   const palette = usePalette();
   const screen = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   const gradient = useEditor((s) => s.gradient);
   const showToast = useUi((s) => s.showToast);
 
@@ -62,7 +64,17 @@ export default function ExportModal() {
 
   return (
     <View style={[styles.root, { backgroundColor: palette.bg }]}>
-      <ScrollView contentContainerStyle={styles.scroll}>
+      {/* The ScrollView needs its own bounded height. With only a
+          contentContainerStyle it sizes to its content inside the flex parent,
+          overflows the screen and never scrolls, which puts Share out of reach
+          on shorter devices and at large font scales. */}
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={[
+          styles.scroll,
+          { paddingBottom: insets.bottom + 24 },
+        ]}
+      >
         <GradientView gradient={gradient} style={styles.preview} />
 
         <Text style={[styles.section, { color: palette.textDim }]}>
@@ -142,6 +154,7 @@ export default function ExportModal() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
+  scrollView: { flex: 1 },
   scroll: { padding: 16, gap: 8 },
   preview: { height: 150, borderRadius: 16, overflow: "hidden" },
   section: {

@@ -1,4 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { usePalette } from "@/hooks/use-palette";
 import { useT } from "@/i18n";
@@ -28,11 +29,15 @@ const LIBRARIES: { name: string; license: string }[] = [
 export default function LicensesScreen() {
   const t = useT();
   const palette = usePalette();
+  const insets = useSafeAreaInsets();
 
   return (
     <ScrollView
       style={{ backgroundColor: palette.bg }}
-      contentContainerStyle={styles.root}
+      contentContainerStyle={[
+        styles.root,
+        { paddingBottom: insets.bottom + 24 },
+      ]}
     >
       <Text style={[styles.intro, { color: palette.textDim }]}>
         {t("licenses.intro")}

@@ -2,11 +2,13 @@ import { router } from "expo-router";
 import { useState } from "react";
 import {
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { GradientView } from "@/components/GradientView";
 import { TOUCH_TARGET } from "@/constants/theme";
@@ -23,6 +25,7 @@ export default function SaveModal() {
   const gradient = useEditor((s) => s.gradient);
   const save = useFavorites((s) => s.save);
   const showToast = useUi((s) => s.showToast);
+  const insets = useSafeAreaInsets();
   const [name, setName] = useState("");
 
   const onSave = () => {
@@ -32,7 +35,18 @@ export default function SaveModal() {
   };
 
   return (
-    <View style={[styles.root, { backgroundColor: palette.bg }]}>
+    // Scrollable so Save stays reachable when the keyboard is up. Android
+    // resizes the window for the keyboard, so the row can be scrolled into
+    // view; a plain View would leave it hidden under the keyboard with no way
+    // to reach it.
+    <ScrollView
+      style={[styles.root, { backgroundColor: palette.bg }]}
+      contentContainerStyle={[
+        styles.content,
+        { paddingBottom: insets.bottom + 24 },
+      ]}
+      keyboardShouldPersistTaps="handled"
+    >
       <GradientView gradient={gradient} style={styles.preview} />
 
       <TextInput
@@ -80,12 +94,13 @@ export default function SaveModal() {
           </Text>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, padding: 16, gap: 12 },
+  root: { flex: 1 },
+  content: { padding: 16, gap: 12 },
   preview: { height: 140, borderRadius: 16, overflow: "hidden" },
   input: {
     minHeight: TOUCH_TARGET,

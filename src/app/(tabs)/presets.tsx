@@ -78,9 +78,12 @@ export default function PresetsScreen() {
 
   return (
     <View style={[styles.root, { backgroundColor: palette.bg }]}>
+      {/* flexGrow/flexShrink 0 pins the chip bar to its content height. As a
+          plain flex child it competes with the list for vertical space. */}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
+        style={styles.chipBar}
         contentContainerStyle={[styles.chips, { paddingTop: insets.top + 12 }]}
       >
         {chip(t("presets.all"), category === null, () => setCategory(null))}
@@ -114,6 +117,7 @@ export default function PresetsScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
+  chipBar: { flexGrow: 0, flexShrink: 0 },
   chips: { gap: 8, paddingHorizontal: 16, paddingBottom: 12 },
   chip: {
     minHeight: TOUCH_TARGET - 10,
