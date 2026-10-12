@@ -5,7 +5,7 @@ answer sheet for every Play Console form. This file is only the part you tick of
 
 ## Before the very first upload
 
-- [ ] **Confirm the Android package name.** `app.json` says `com.apsolut.gradiente`.
+- [ ] **Confirm the Android package name.** `app.json` says `dev.apsolut.gradiente`.
       It is permanent once uploaded and can never be changed.
 - [ ] Fill the four `[REPLACE]` markers in `store/privacy-policy.html`
       (date, your name/company, address, email).

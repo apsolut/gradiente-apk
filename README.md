@@ -50,7 +50,7 @@ npm run doctor      # expo-doctor
 
 See [`store/RELEASE.md`](store/RELEASE.md) for the full runbook. The blocking items:
 
-- **Confirm the Android package name.** `app.json` currently has `com.apsolut.gradiente`.
+- **Confirm the Android package name.** `app.json` currently has `dev.apsolut.gradiente`.
   It is permanent after the first upload and cannot be changed.
 - Fill the `[REPLACE]` markers in [`store/privacy-policy.html`](store/privacy-policy.html),
   host it at a public HTTPS URL, and put that URL in `src/constants/links.ts`.

@@ -8,7 +8,7 @@
     "scheme": "gradiente",
     "userInterfaceStyle": "automatic",
     "android": {
-      "package": "com.apsolut.gradiente",
+      "package": "dev.apsolut.gradiente",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png",
