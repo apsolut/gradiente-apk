@@ -13,8 +13,11 @@ expo-env.d.ts
 .kotlin/
 *.orig.*
 *.jks
+*.keystore
 *.p8
 *.p12
+# EAS writes keystore passwords here when you download credentials. Never commit.
+credentials.json
 *.key
 *.mobileprovision
 
