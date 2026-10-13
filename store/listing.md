@@ -61,6 +61,12 @@ Questions or ideas? Write to us from the Settings screen. We read every message.
 First release of Gradiente. Create, save and export beautiful gradients.
 ```
 
+**Release notes v1.0.1** (under 500)
+
+```
+Fixes: the Export and Save screens now scroll, so their buttons stay reachable on every screen size. The preset category bar no longer takes space from the grid.
+```
+
 ---
 
 ## de-DE (optional second language)
