@@ -73,6 +73,12 @@ Fixes: the Export and Save screens now scroll, so their buttons stay reachable o
 Fixes: preset and favorite thumbnails are back to their proper size, so the grid shows many gradients per screen again. Opening a colour stop no longer closes the app. Buttons on the Export and Save screens stay reachable on every screen size.
 ```
 
+**Release notes v1.0.3** (under 500)
+
+```
+Fixes: preset and favorite thumbnails are back to their proper size, so the grid shows many gradients per screen again. Opening a colour stop no longer closes the app. Buttons on the Export and Save screens stay reachable on every screen size.
+```
+
 ---
 
 ## de-DE (optional second language)
