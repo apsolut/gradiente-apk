@@ -1,6 +1,6 @@
 import Slider from "@react-native-community/slider";
 import { router, useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import ColorPicker, {
   HueSlider,
@@ -27,8 +27,15 @@ export default function ColorPickerModal() {
   const index = Number(stop);
 
   const colorStop = useEditor((s) => s.gradient.stops[index]);
-  const otherColors = useEditor((s) =>
-    s.gradient.stops.filter((_, i) => i !== index).map((item) => item.color),
+  // Derive outside the selector. Zustand v5 reads through useSyncExternalStore
+  // and compares snapshots by reference, so a selector that builds a new array
+  // on every call reports "changed" forever: render, new array, render again,
+  // until React throws "Maximum update depth exceeded". Select the stable
+  // stops array and do the work in a memo.
+  const stops = useEditor((s) => s.gradient.stops);
+  const otherColors = useMemo(
+    () => stops.filter((_, i) => i !== index).map((item) => item.color),
+    [stops, index],
   );
   const setStopColor = useEditor((s) => s.setStopColor);
   const beginDrag = useEditor((s) => s.beginDrag);

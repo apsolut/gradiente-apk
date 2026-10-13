@@ -29,7 +29,9 @@ export const ExportCanvas = forwardRef<View, ExportCanvasProps>(
           collapsable={false}
           style={{ width: dp.width, height: dp.height }}
         >
-          <GradientView gradient={gradient} width="100%" height="100%" />
+          {/* The wrapper above already carries the exact dp size, so fill it by
+              insets rather than percentages. */}
+          <GradientView gradient={gradient} style={StyleSheet.absoluteFill} />
         </View>
       </View>
     );
