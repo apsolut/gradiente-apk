@@ -80,6 +80,12 @@ Fixes: preset and favorite thumbnails are back to their proper size, so the grid
 Fixes: preset and favorite thumbnails are back to their proper size, so the grid shows many gradients per screen again. Opening a colour stop no longer closes the app. Buttons on the Export and Save screens stay reachable on every screen size.
 ```
 
+**Release notes v1.0.4** (under 500)
+
+```
+New: Save to device. Pick a folder once and save your wallpapers straight into it, no permissions needed. Fixed the home screen icon so it fills its shape properly.
+```
+
 ---
 
 ## de-DE (optional second language)
