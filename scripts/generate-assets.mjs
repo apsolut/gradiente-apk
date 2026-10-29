@@ -152,10 +152,12 @@ const coverage = (distance) => clamp01(0.5 - distance);
 
 /**
  * The mark, drawn into a square of `size` at `scale` of that square.
- * Returns RGBA. `cut` controls whether the axis line is a light overlay
- * (normal) or punched out of the alpha (monochrome).
+ * Returns RGBA. `layer` picks what is drawn:
+ * - "full": gradient shape with the light axis overlay (normal icon)
+ * - "motif": the axis and handles alone, light on transparent
+ * - "monochrome": the motif at full opacity, for the system to tint
  */
-function markShader(size, { scale = 1, radiusRatio = 0.22, monochrome = false }) {
+function markShader(size, { scale = 1, radiusRatio = 0.22, layer = "full" }) {
   const side = size * scale;
   const half = side / 2;
   const center = size / 2;
@@ -185,9 +187,12 @@ function markShader(size, { scale = 1, radiusRatio = 0.22, monochrome = false })
     const px = x + 0.5;
     const py = y + 0.5;
 
-    const shapeAlpha = coverage(
-      roundedRectDistance(px, py, center, center, half, half, radius),
-    );
+    const shapeAlpha =
+      layer !== "full"
+        ? 1
+        : coverage(
+            roundedRectDistance(px, py, center, center, half, half, radius),
+          );
     if (shapeAlpha <= 0) return [0, 0, 0, 0];
 
     // Diagonal position across the mark, 0 at bottom-left to 1 at top-right.
@@ -216,9 +221,9 @@ function markShader(size, { scale = 1, radiusRatio = 0.22, monochrome = false })
     const ringB = clamp01(handleB - holeB);
     const motif = clamp01(Math.max(onLine, ringA, ringB));
 
-    if (monochrome) {
-      // Alpha-only silhouette: the motif is cut out so it reads when tinted.
-      return [0xff, 0xff, 0xff, Math.round(shapeAlpha * (1 - motif) * 255)];
+    if (layer !== "full") {
+      const opacity = layer === "motif" ? 0.92 : 1;
+      return [0xff, 0xff, 0xff, Math.round(motif * opacity * 255)];
     }
 
     const white = 0xff;
@@ -255,13 +260,16 @@ function emit(label, file, width, height, shader, options) {
   outputs.push({ label, file, size: `${width}x${height}`, bytes });
 }
 
-// Launcher / store icon: full-bleed, no transparency, mark edge to edge.
+/**
+ * Launcher / store icon: a full-bleed square. Launchers and Play apply their
+ * own corner mask, so rounded corners here would show as a dark frame.
+ */
 emit(
   "launcher icon",
   "assets/images/icon.png",
   1024,
   1024,
-  overBackground(markShader(1024, { scale: 1, radiusRatio: 0.2 }), BRAND.background),
+  overBackground(markShader(1024, { scale: 1, radiusRatio: 0 }), BRAND.background),
   { alpha: false },
 );
 
@@ -271,28 +279,47 @@ emit(
   "store/icon-512.png",
   512,
   512,
-  overBackground(markShader(512, { scale: 1, radiusRatio: 0.2 }), BRAND.background),
+  overBackground(markShader(512, { scale: 1, radiusRatio: 0 }), BRAND.background),
 );
 
 /**
- * Adaptive icon foreground: Android crops to a mask and only the centre ~66%
- * is guaranteed visible, so the mark is scaled into that safe zone.
+ * Adaptive icon: the launcher crops both layers to its own shape, so the
+ * gradient is a full-bleed background layer and the foreground carries only
+ * the axis motif. Drawing the rounded square into the foreground instead
+ * shows up as a square inside the launcher's shape.
+ *
+ * Only the centre 72dp of the 108dp canvas is guaranteed visible, so the
+ * motif uses that 2/3 scale — the same proportions as the launcher icon.
  */
+const ADAPTIVE_SCALE = 2 / 3;
+
+emit(
+  "adaptive background",
+  "assets/images/android-icon-background.png",
+  1024,
+  1024,
+  (x, y) => {
+    const t = clamp01((x + 0.5 + (1024 - y - 0.5)) / 2048);
+    return [...gradientAt(t), 255];
+  },
+  { alpha: false },
+);
+
 emit(
   "adaptive foreground",
   "assets/images/android-icon-foreground.png",
   1024,
   1024,
-  markShader(1024, { scale: 0.6, radiusRatio: 0.24 }),
+  markShader(1024, { scale: ADAPTIVE_SCALE, layer: "motif" }),
 );
 
-// Monochrome layer for themed icons: alpha silhouette, white pixels.
+// Monochrome layer for themed icons: the motif alone, tinted by the system.
 emit(
   "adaptive monochrome",
   "assets/images/android-icon-monochrome.png",
   1024,
   1024,
-  markShader(1024, { scale: 0.6, radiusRatio: 0.24, monochrome: true }),
+  markShader(1024, { scale: ADAPTIVE_SCALE, layer: "monochrome" }),
 );
 
 // Splash mark, shown on the app.json splash backgroundColor.

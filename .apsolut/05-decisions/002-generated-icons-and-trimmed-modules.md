@@ -52,6 +52,11 @@ builds.
 - what this forecloses: anything the generator can't express — notably text. The
   feature graphic therefore carries the mark but no wordmark. If a wordmark is
   wanted, add it to `store/feature-graphic.png` in a design tool.
+- what to watch for: the launcher applies its own shape mask. The adaptive icon
+  is two layers — the gradient as a full-bleed `backgroundImage`, the axis motif
+  alone as the foreground — and `icon.png` / `store/icon-512.png` are full-bleed
+  squares. Drawing the rounded square into any of them shows as a dark-framed
+  "icon inside an icon" on device.
 - what to watch for: re-adding any removed module means re-checking the Data safety
   declaration. The whole "No data collected" claim rests on no dependency phoning
   home.
