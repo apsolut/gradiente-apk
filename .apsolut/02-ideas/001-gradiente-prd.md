@@ -107,7 +107,11 @@ Priority: **P0** = must ship, **P1** = ship if time allows today, otherwise v1.0
 
 ### F4. Export image (P0)
 - Export PNG at: "This device" (actual screen pixels), 1080x1920, 1440x3200, 2160x3840 (4K), 2048x2048 (square).
-- Export through the **Android share sheet** (`expo-sharing`). The user can save to Photos / Files or send it to any app.
+- Two routes out, both permission-free:
+  - **Share PNG** — the **Android share sheet** (`expo-sharing`). The user can save to Photos / Files or send it to any app.
+  - **Save to device** — writes into a folder the user picks through the **Storage Access Framework**
+    (`expo-file-system`, `Directory.pickDirectoryAsync`). The folder grant is persistable, so it is asked for once.
+    See [[05-decisions/003-saf-folder-save-not-media-library]].
 - **No storage or media permissions are requested.** This avoids Google Play's Photo and Video Permissions policy entirely.
 
 **Acceptance criteria**
@@ -174,7 +178,7 @@ Navigation: `expo-router` bottom tabs plus modal sheets.
 | Framework | **Expo SDK 57** (React Native 0.86, React 19.2), TypeScript | Latest stable. New Architecture and Hermes by default. Targets Android 16 (API 36), which Play requires since 31 Aug 2026. |
 | Routing | `expo-router` | File-based, comes with the default template |
 | Rendering | `react-native-svg` (`LinearGradient`, `RadialGradient`) | One renderer for preview and export |
-| Export | `react-native-view-shot` (`captureRef` with explicit width/height) + `expo-sharing` | No permissions needed |
+| Export | `react-native-view-shot` (`captureRef` with explicit width/height) + `expo-sharing` + `expo-file-system` (SAF folder save) | No permissions needed |
 | Color picker | `reanimated-color-picker` | Pure JS on top of Reanimated / Gesture Handler (already in the template) |
 | Slider | `@react-native-community/slider` | Expo-supported |
 | State | `zustand` with `persist` middleware | Tiny, simple |
@@ -396,7 +400,7 @@ eas build -p android --profile production
 | **Minimum functionality / spam** (simple or template-like app) | Medium | Real editor, export, codes, presets, favorites; original screenshots and description; no copied template text |
 | **Metadata policy** (keywords, "best", brand names) | Medium | Use the copy in Appendix C as is |
 | **Data safety mismatch** | Low | No third-party SDKs that collect data; re-check before adding any |
-| **Undeclared / sensitive permissions** (Photo and Video policy) | Low | Share-sheet export, `permissions: []`, `blockedPermissions` |
+| **Undeclared / sensitive permissions** (Photo and Video policy) | Low | Share-sheet export and SAF folder save (both permission-free), `permissions: []`, `blockedPermissions`. See [[05-decisions/003-saf-folder-save-not-media-library]] |
 | **Broken functionality during review** | Low | Test the Play-signed build from the internal track |
 | **Invalid privacy policy** (404, PDF, generic) | Low | Public HTTPS page naming the app and developer |
 | **Impersonation / IP** | Low | Original icon and name, generic preset names |
@@ -569,7 +573,9 @@ or uninstall the app. We have no access to them.
 
 3. Permissions
 The app does not request access to your photos, files, camera, microphone, contacts or location. When you export an
-image, it is passed to the Android share sheet and you choose where it goes.
+image you choose where it goes: either through the Android share sheet, or into a folder you pick yourself in
+Android's own file picker. In the second case the app can write only to the folder you picked, and only when you tap
+Save. It never reads anything that is already there.
 
 4. Contacting us
 If you email us, we use your email address and message only to reply to you and delete them when they are no

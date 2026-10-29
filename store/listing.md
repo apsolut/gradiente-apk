@@ -42,6 +42,7 @@ EXPORT
 - High-resolution PNG up to 4K
 - Sizes for your exact screen, common phones, or square posts
 - Share to your gallery, files, or any app
+- Or save straight to a folder you choose, ready for any other editor
 
 FOR DEVELOPERS AND DESIGNERS
 - Copy as CSS, Tailwind, hex list or JSON with one tap
@@ -117,6 +118,7 @@ EXPORTIEREN
 - Hochauflösende PNG bis 4K
 - Größen für deinen Bildschirm, gängige Handys oder quadratische Posts
 - Teile sie in deine Galerie, Dateien oder jede andere App
+- Oder speichere sie direkt in einen Ordner deiner Wahl, bereit für jeden anderen Editor
 
 FÜR ENTWICKLER UND DESIGNER
 - Kopiere als CSS, Tailwind, Hex-Liste oder JSON mit einem Tipp

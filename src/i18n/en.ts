@@ -66,11 +66,18 @@ export const en = {
   "export.device": "This device",
   "export.deviceHint": "actual screen pixels",
   "export.share": "Share PNG",
+  "export.save": "Save to device",
+  "export.folder": "Folder",
+  "export.changeFolder": "Change",
   "export.working": "Preparing image...",
   "export.note":
-    "Exported through the Android share sheet, so Gradiente never asks for photo or storage access.",
+    "Share hands the PNG to the Android share sheet. Save writes it into a folder you pick. Either way Gradiente never asks for photo or storage access.",
   "export.failed": "Could not export the image",
   "export.sharingUnavailable": "Sharing is not available on this device",
+  "export.saved": "Saved to your folder",
+  "export.saveFailed": "Could not save the image",
+  "export.folderUnavailable":
+    "That folder is no longer available. Pick one again.",
 
   "code.title": "Copy as code",
   "code.css": "CSS",

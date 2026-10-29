@@ -64,11 +64,18 @@ export const de: Record<StringKey, string> = {
   "export.device": "Dieses Gerät",
   "export.deviceHint": "echte Bildschirmpixel",
   "export.share": "PNG teilen",
+  "export.save": "Auf Gerät speichern",
+  "export.folder": "Ordner",
+  "export.changeFolder": "Ändern",
   "export.working": "Bild wird vorbereitet...",
   "export.note":
-    "Der Export läuft über das Android-Teilen-Menü. Gradiente fragt daher nie nach Foto- oder Speicherzugriff.",
+    "Teilen übergibt das PNG an das Android-Teilen-Menü. Speichern schreibt es in einen von dir gewählten Ordner. In beiden Fällen fragt Gradiente nie nach Foto- oder Speicherzugriff.",
   "export.failed": "Das Bild konnte nicht exportiert werden",
   "export.sharingUnavailable": "Teilen ist auf diesem Gerät nicht verfügbar",
+  "export.saved": "Im gewählten Ordner gespeichert",
+  "export.saveFailed": "Das Bild konnte nicht gespeichert werden",
+  "export.folderUnavailable":
+    "Dieser Ordner ist nicht mehr verfügbar. Bitte neu auswählen.",
 
   "code.title": "Als Code kopieren",
   "code.css": "CSS",

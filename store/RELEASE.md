@@ -31,8 +31,12 @@ answer sheet for every Play Console form. This file is only the part you tick of
 - [ ] Light, dark, landscape, split screen, font scale 200%, TalkBack
 - [ ] Kill the app mid-edit, reopen: the draft is restored
 - [ ] Export every size; share to Photos, Files and Gmail
-- [ ] Merged manifest has no unexpected permissions:
-      `bundletool dump manifest --bundle app.aab`
+- [ ] Save to device: pick a folder, save, kill the app, reopen and save again
+      without being asked for the folder a second time
+- [ ] Merged manifest has no unexpected permissions — `expo-file-system`'s own
+      manifest declares `READ_EXTERNAL_STORAGE` and `WRITE_EXTERNAL_STORAGE`
+      at `maxSdkVersion=32`, and `blockedPermissions` must still be stripping
+      both: `bundletool dump manifest --bundle app.aab`
 - [ ] `versionCode` increased (EAS `autoIncrement` handles this), release notes written
 - [ ] Data safety form still matches the SDKs in the build
 - [ ] Pre-launch report: 0 crashes, accessibility warnings reviewed
